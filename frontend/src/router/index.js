@@ -7,7 +7,7 @@ import RegisterForm from '../components/Landing/Forms/Register.vue'
 
 const routes = [
     {path: '/', name:'Home', component: HomeView},
-    {path: '/auth/', component: AuthenticateView, children: [
+    {path: '/', component: AuthenticateView, children: [
       {path: 'login', name: 'Login', component: LoginForm},
       {path: 'register', name:'Register', component: RegisterForm}
     ]},
