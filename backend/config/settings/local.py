@@ -8,6 +8,7 @@ SECRET_KEY = env(
     default="ZKDdSiWGOTOABitsOQe2Xy6NINNKECHgP24s1mRu4oJTmKz1sMf1jWeeSgRM5mFl",
 )
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ['localhost:5173', '0.0.0.0:5173', '127.0.0.1:5173']
 
 CACHES = {
     "default": {

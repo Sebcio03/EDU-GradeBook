@@ -9,15 +9,13 @@ from sentry_sdk.integrations.redis import RedisIntegration
 from .base import *  # noqa
 from .base import env
 
-# GENERAL
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
+
 SECRET_KEY = env("DJANGO_SECRET_KEY")
-# https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["localhost"])
 
-# DATABASES
-# ------------------------------------------------------------------------------
+CSRF_TRUSTED_ORIGINS = ['127.0.0.1:5173']
+
+
 DATABASES["default"] = env.db("DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
 DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa F405
@@ -42,14 +40,10 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 SECURE_HSTS_SECONDS = 60
-SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool(
-    "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True
-)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
 SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=True)
 
-SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
-    "DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", default=True
-)
+SECURE_CONTENT_TYPE_NOSNIFF = env.bool("DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", default=True)
 
 # EMAIL
 # ------------------------------------------------------------------------------
@@ -95,12 +89,7 @@ INSTALLED_APPS = ["collectfast"] + INSTALLED_APPS  # noqa F405
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": True,
-    "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s "
-            "%(process)d %(thread)d %(message)s"
-        }
-    },
+    "formatters": {"verbose": {"format": "%(levelname)s %(asctime)s %(module)s " "%(process)d %(thread)d %(message)s"}},
     "handlers": {
         "console": {
             "level": "DEBUG",

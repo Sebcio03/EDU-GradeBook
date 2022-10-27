@@ -6,6 +6,19 @@ volumes:
   production_traefik: {}
 
 services:
+
+  vue:
+    build:
+      context: .
+      dockerfile: ./compose/production/vue/Dockerfile
+    container_name: production_vue
+    platform: linux/x86_64
+    volumes:
+      - ./frontend/:/app:z
+    env_file:
+      - ./.envs/.production/.vue
+    ports:
+      - "5173:5173"
   django: &django
     build:
       context: .

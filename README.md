@@ -1,7 +1,11 @@
 # EDU
 #### OpenSource Online GradeBook
 
+
 # Env
+
+Envs are stored in .env/<.local | .production>/.<service_name>
+
 ```bash
 DJANGO_SECRET_KEY=SECRET_KEEEY
 DJANGO_SETTINGS_MODULE=config.settings.production
