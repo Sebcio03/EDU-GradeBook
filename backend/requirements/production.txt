@@ -1,11 +1,4 @@
-# PRECAUTION: avoid production dependencies that aren't in development
-
 -r base.txt
 
 gunicorn==20.1.0
-Collectfast==2.2.0
-sentry-sdk==1.9.0  
-
-# Django
-# ------------------------------------------------------------------------------
-django-anymail[amazon_ses]==8.6  
+Collectfast==2.2.0  

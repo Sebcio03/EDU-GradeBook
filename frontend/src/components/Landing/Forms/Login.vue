@@ -29,23 +29,27 @@ export default{
             errors: []
         }
     },
-    methods: {  
+    methods: {      
+        printErr(res) {
+            if (res.response) {
+                if (res.response.status){
+                    this.errors = [].concat(...Object.values(res.response.data))
+                } else {
+                    this.errors = ['Unexpected error happend']
+                }
+            }
+        },
         onSubmit(){
             return axios.post('/users/signin/', this.form)
                 .then((res) => {
+                    if (res.status != 200){
+                        return this.printErr(res)
+                    }
                     this.errors = []
                     this.$store.commit("notify", 'Successfully signed in!', 'success') 
                     this.$router.push({ name: 'OrganizationsList' })              
                 })
-                .catch((res) => {
-                    if (res.response) {
-                        if (res.response.status){
-                            this.errors = [].concat(...Object.values(res.response.data))
-                        } else {
-                            this.errors = ['Unexpected error happend']
-                        }
-                    }
-                })
+                .catch(this.printErr)
         }
     },
 }
