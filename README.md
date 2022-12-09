@@ -1,28 +1,9 @@
 # EDU
 #### OpenSource Online GradeBook
 
-
-# Env
-
-Envs are stored in .env/<.local | .production>/.<service_name>
-
-```bash
-DJANGO_SECRET_KEY=SECRET_KEEEY
-DJANGO_SETTINGS_MODULE=config.settings.production
-DJANGO_ADMIN_URL=/admin/
-SENTRY_DSN=
-
-REDIS_URL=redis://redis:6379/0
-DATABASE_URL=postgres://debug:debug@postgres:5432/backend
-CELERY_BROKER_URL=redis://redis:6379/0
-
-CELERY_FLOWER_USER=debug
-CELERY_FLOWER_PASSWORD=debug
-
-DJANGO_AWS_ACCESS_KEY_ID=""
-DJANGO_AWS_SECRET_ACCESS_KEY=""
-DJANGO_AWS_STORAGE_BUCKET_NAME=""
-```
+# Purpose
+- Learn Vue/Nuxt (with Vuex)
+- Master Django
 
 # Stack
 * Backend
@@ -35,22 +16,47 @@ DJANGO_AWS_STORAGE_BUCKET_NAME=""
     * Redis
     * PyTest
 * Frontend
-    * Vue3/Vuex/Nuxt/
+    * Vue3/Vuex
+    * Nuxt (TODO)
     * TailwindCSS (with PostCSS)
-    * Jest
+    * Jest (TODO)
 * Tools 
     * Docker
     * Kubernetes (TODO)
-    * Terraform (TODO)
-    * LocalStack (TODO)
+    * Terraform
+    * LocalStack
 * Testing
     * Selenium (TODO)
 * Third-Party Tools 
-    * Amazon Web Services (TODO)
+    * Amazon Web Services
     * Circle CI (TODO)
-    * Sentry (TODO)
+    * Sentry
     * DataDog (TODO)
 
-# Purpose
-- Learn Vue/Nuxt (with Vuex)
-- Master Django
+# Set up the project  
+
+## Environment variables 
+
+Envs are stored in .env directory
+- Dev environments are in .local/.<service_name> 
+- Prod environments are in .env/.production/.<service_name>
+- Example environments are in .env/example/.<service_name>
+
+## Terraform (AWS)
+
+> With localstack use [terraform-local](https://pypi.org/project/terraform-local/)
+
+terraform.tfvars
+```tfvars
+s3_bucket_name = "s3bucket"
+aws_access_key = "default"
+aws_secret_key = "default"
+aws_region = "eu-central-1"
+```
+
+## Migrations
+
+```bash
+docker exec -it {local/production}_django python manage.py makemigrations
+docker exec -it {local/production}_django python manage.py migrate
+```

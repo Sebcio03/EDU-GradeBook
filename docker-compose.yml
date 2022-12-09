@@ -3,6 +3,10 @@ version: '3'
 volumes:
   local_postgres_data: {}
   local_postgres_data_backups: {}
+  local_localstack_data: {}
+
+networks:
+  local: {}
 
 services:
   vue:
@@ -17,6 +21,8 @@ services:
       - ./.envs/.local/.vue
     ports:
       - "5173:5173"
+    networks:
+      - local
   django: &django
     build:
       context: .
@@ -34,7 +40,8 @@ services:
       - ./.envs/.local/.postgres
     ports:
       - "8000:8000"
-
+    networks:
+      - local
   postgres:
     image: postgres:14
     container_name: local_postgres
@@ -43,17 +50,20 @@ services:
       - local_postgres_data_backups:/backups:z
     env_file:
       - ./.envs/.local/.postgres
-
+    networks:
+      - local
   mailhog:
     image: mailhog/mailhog:v1.0.0
     container_name: local_mailhog
     ports:
       - "8025:8025"
-
+    networks:
+      - local
   redis:
     image: redis:6
     container_name: local_redis
-
+    networks:
+      - local
   celeryworker:
     <<: *django
     container_name: local_celeryworker
@@ -63,7 +73,8 @@ services:
       - mailhog
     ports: []
     entrypoint: /start-celeryworker
-
+    networks:
+      - local
   celerybeat:
     <<: *django
     container_name: local_celerybeat
@@ -73,16 +84,29 @@ services:
       - mailhog
     ports: []
     entrypoint: /start-celerybeat
-
+    networks:
+      - local
   flower:
     <<: *django
     container_name: local_flower
     ports:
       - "5555:5555"
     entrypoint: /start-flower
-
+    networks:
+      - local
   localstack:
-    image: localstack/localstack:1.0.3
+    build:
+      context: .
+      dockerfile: ./compose/local/localstack/Dockerfile
     container_name: local_localstack
+    hostname: localstack.localhost
     ports:
-      - "4566:4566"
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4510-4559:4510-4559"
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - ./data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - local

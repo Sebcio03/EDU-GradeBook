@@ -3,10 +3,11 @@ version: '3'
 volumes:
   production_postgres_data: {}
   production_postgres_data_backups: {}
-  production_traefik: {}
+
+networks:
+  prod: {}
 
 services:
-
   vue:
     build:
       context: .
@@ -15,15 +16,16 @@ services:
     platform: linux/x86_64
     volumes:
       - ./frontend/:/app:z
-    env_file:
-      - ./.envs/.production/.vue
+      - ./frontend/nginx:/etc/nginx/conf.d
     ports:
-      - "5173:5173"
+      - "80:80"
+    networks:
+      - prod
   django: &django
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
-    image: backend_production_django
+    container_name: production_django
     platform: linux/x86_64
     depends_on:
       - postgres
@@ -32,43 +34,38 @@ services:
       - .envs/.production/.django
       - .envs/.production/.postgres
     entrypoint: /entrypoint.sh
-
+    ports:
+      - "8000:8000"
+    networks:
+      - prod
   postgres:
     image: postgres:14
+    container_name: production_postgres
     volumes:
       - production_postgres_data:/var/lib/postgresql/data:Z
       - production_postgres_data_backups:/backups:z
     env_file:
       - .envs/.production/.postgres
-
-  traefik:
-    build:
-      context: .
-      dockerfile: ./compose/production/traefik/Dockerfile
-    image: backend_production_traefik
-    depends_on:
-      - django
-    volumes:
-      - production_traefik:/etc/traefik/acme:z
-    ports:
-      - "0.0.0.0:80:80"
-      - "0.0.0.0:443:443"
-      - "0.0.0.0:5555:5555"
+    networks:
+      - prod
 
   redis:
     image: redis:6
-
+    container_name: production_redis
+    networks:
+      - prod
   celeryworker:
     <<: *django
-    image: backend_production_celeryworker
+    container_name: production_celeryworker
     entrypoint: /start-celeryworker
-
+    ports: []
   celerybeat:
     <<: *django
-    image: backend_production_celerybeat
+    container_name: production_celerybeat
     entrypoint: /start-celerybeat
-
+    ports: []
   flower:
     <<: *django
-    image: backend_production_flower
+    container_name: production_flower
     entrypoint: /start-flower
+    ports: []

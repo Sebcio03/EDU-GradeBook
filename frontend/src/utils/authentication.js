@@ -1,8 +1,12 @@
 import store from '../store/index.js'
 import { notinterceptedInstance } from '../axios/index.js'
 
+function userNotInStorage(){
+  return (store.state.user && Object.keys(store.state.user).length === 0)
+}
+
 export async function isAuthenticated(){
-  if (Object.keys(store.state.user).length === 0){
+  if (userNotInStorage()){
     try{
       const r = await notinterceptedInstance.get('/users/me/')
       store.commit('setUserData', r.data)
@@ -10,5 +14,5 @@ export async function isAuthenticated(){
       store.commit('setUserData', {})
     }
   }
-  return Object.keys(store.state.user).length === 0 ? false : true
+  return !(userNotInStorage())
 }
