@@ -2,9 +2,9 @@ from rest_framework.routers import DefaultRouter
 
 from backend.organizations.views import OrganizationViewSet
 
-router = DefaultRouter()
-router.register('', OrganizationViewSet, basename='organization')
+app_name = "organizations"
 
-urlpatterns = [
-    
-] + router.urls
+router = DefaultRouter()
+router.register("", OrganizationViewSet, basename="organization")
+
+urlpatterns = [] + router.urls

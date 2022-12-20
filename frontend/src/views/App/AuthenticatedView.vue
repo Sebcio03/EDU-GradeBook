@@ -1,6 +1,6 @@
 <template lang="">
-    <AppNav/>
-    <router-view></router-view>
+  <AppNav/>
+  <router-view></router-view>
 </template>
 <script>
 import AppNav from '../../components/App/Nav.vue'

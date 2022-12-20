@@ -18,7 +18,7 @@ from rest_framework.permissions import IsAuthenticated
 
 class GetCSRFToken(APIView):
     def get(self, request):
-        return Response({'token': get_token(request)})
+        return Response({"token": get_token(request)})
 
 
 class SignUpAPIView(CreateAPIView):

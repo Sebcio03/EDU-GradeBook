@@ -54,10 +54,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
 ]
 
-LOCAL_APPS = [
-    "backend.users",
-    "backend.organizations"
-]
+LOCAL_APPS = ["backend.users", "backend.organizations", "backend.utils"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 

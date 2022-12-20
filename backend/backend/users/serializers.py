@@ -14,7 +14,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email", "password", 'agree_with_terms']
+        fields = ["first_name", "last_name", "email", "password", "agree_with_terms"]
         extra_kwargs = {
             "password": {"write_only": True},
         }
@@ -25,7 +25,7 @@ class SignUpSerializer(serializers.ModelSerializer):
         return v
 
     def create(self, validated_data):
-        validated_data.pop('agree_with_terms')
+        validated_data.pop("agree_with_terms")
         user = User(**validated_data)
         user.set_password(validated_data["password"])
         user.save()

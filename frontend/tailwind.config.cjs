@@ -8,5 +8,12 @@ module.exports = {
   theme: {},
   plugins: [
     require('flowbite/plugin')
-],
+  ],
+  theme: {
+    extend: {
+      width: {
+        '510px': '510px',
+      }
+    }
+  }
 }
