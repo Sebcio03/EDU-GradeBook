@@ -2,10 +2,9 @@ FROM node:16-alpine as builder
 
 WORKDIR /app
 
-COPY ./frontend/package-lock.json ./
-COPY ./frontend/package.json ./
+COPY ./frontend/package*.json ./
 
-RUN npm i -f
+RUN npm i
 COPY ./frontend .
 RUN npm run build
 

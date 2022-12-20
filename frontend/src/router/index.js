@@ -6,6 +6,8 @@ import LoginForm from '../components/Landing/Forms/Login.vue'
 import RegisterForm from '../components/Landing/Forms/Register.vue'
 
 import OrganizationsListView from '../views/App/OrganizationsListView.vue'
+import OrganizationCreateView from '../views/App/OrganizationCreateView.vue'
+import OrganizationDetailView from '../views/App/OrganizationDetailView.vue'
 import AuthenticatedView from '../views/App/AuthenticatedView.vue'
 
 import { isAuthenticated } from '../utils/authentication.js'
@@ -20,7 +22,9 @@ const routes = [
       {path: 'register', name:'Register', component: RegisterForm}
     ]},
     {path: '/', name: 'Authenticated', component: AuthenticatedView, children: [
-      {path: '/organizations/', name: "OrganizationsList", component: OrganizationsListView}
+      {path: '/organizations/', name: "OrganizationsList", component: OrganizationsListView},
+      {path: '/organizations/create/', name: "OrganizationCreate", component: OrganizationCreateView},
+      {path: '/organizations/:organizationId', name: "OrganizationDetail", component: OrganizationDetailView}
     ]}
 ]
 

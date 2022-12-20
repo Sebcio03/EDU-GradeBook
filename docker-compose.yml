@@ -16,7 +16,7 @@ services:
     container_name: local_vue
     platform: linux/x86_64
     volumes:
-      - ./frontend/:/app:z
+      - ./frontend:/app
     env_file:
       - ./.envs/.local/.vue
     ports:

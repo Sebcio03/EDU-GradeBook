@@ -15,7 +15,7 @@ export function whenCSRFMethod(config) {
 }
 
 export async function handleAuthenticationErrors(promise) {    
-    if ([401, 403, 500].includes(promise.response?.status)){
+    if ([401, 403].includes(promise.response?.status)){
         state.commit('setUserData', {})
         router.push('/login')
         return promise

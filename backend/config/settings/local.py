@@ -30,6 +30,6 @@ DEBUG_TOOLBAR_CONFIG = {
 
 CELERY_TASK_EAGER_PROPAGATES = True
 
-AWS_S3_ENDPOINT_URL = f'http://localstack.localhost:4566/'    
+AWS_S3_ENDPOINT_URL = f'http://localstack.localhost:4566/'
 STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/static/"
 MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/media/"

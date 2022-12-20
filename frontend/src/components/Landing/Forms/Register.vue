@@ -31,7 +31,7 @@
             <label for="agree_with_terms" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-400">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
         </div>
         <ul v-if="errors" class="list-disc capitalize text-red-600 ml-4 mb-5">
-            <li v-for="err in errors" :key="err">{{ err }}</li>
+            <li class="capitalize" v-for="err in errors" :key="err">{{ err }}</li>
         </ul>
         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Get started!</button>
     </form>
@@ -56,7 +56,6 @@ export default{
     },
     methods: {  
         onSubmit(){
-            console.log(this)
             axios.post('/users/signup/', this.form)
                 .then((res) => {
                     this.errors = []
@@ -65,7 +64,6 @@ export default{
                 })
                 .catch((res) => {
                     if (res.response) {
-                        console.log(res.response)
                         if (res.response.status == 400){
                             this.errors = [].concat(...Object.values(res.response.data))
                         } else {

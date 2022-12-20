@@ -11,7 +11,7 @@ const axiosSettings = {
 }
 
 const instance = axios.create(axiosSettings);
-instance.interceptors.request.use(injectCSRF, (error) => Promise.reject(error), {runWhen: whenCSRFMethod});
+instance.interceptors.request.use(injectCSRF, () => {}, {runWhen: whenCSRFMethod});
 instance.interceptors.response.use((response) => response, handleAuthenticationErrors);
 
 export const notinterceptedInstance = axios.create(axiosSettings);
